@@ -1,0 +1,34 @@
+-- Importer les CSV générés dans outputs/ : run_summary, table_quality,
+-- quality_issues, column_quality et check_results.
+
+Score qualité global (%) =
+AVERAGE ( run_summary[overall_quality_score_pct] )
+
+Anomalies ouvertes =
+COUNTROWS ( quality_issues )
+
+Contrôles en échec =
+CALCULATE (
+    COUNTROWS ( check_results ),
+    check_results[status] = "FAIL"
+)
+
+Taux moyen de valeurs manquantes (%) =
+AVERAGE ( column_quality[null_rate_pct] )
+
+Lignes profilées =
+SUM ( table_quality[row_count] )
+
+Score qualité sélectionné (%) =
+AVERAGE ( table_quality[quality_score_pct] )
+
+Tables en dessous de 95 % =
+COUNTROWS (
+    FILTER ( table_quality, table_quality[quality_score_pct] < 95 )
+)
+
+Règles critiques en échec =
+CALCULATE (
+    COUNTROWS ( quality_issues ),
+    quality_issues[severity] = "Critical"
+)

@@ -1,0 +1,16 @@
+# Données Kaggle sous licence distincte
+/data/raw/*
+!/data/raw/.gitkeep
+
+# Exports locaux et cache
+/outputs/*
+!/outputs/.gitkeep
+*.duckdb
+*.duckdb.wal
+.streamlit/
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
+.env
+.DS_Store
