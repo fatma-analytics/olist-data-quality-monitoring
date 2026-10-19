@@ -6,6 +6,14 @@ Un pipeline de contrôle qualité transforme les fichiers e-commerce d’Olist e
 
 Le cas d’usage porte sur un point concret : une équipe BI doit pouvoir repérer rapidement les tables et les règles qui dégradent la fiabilité des indicateurs avant leur consommation dans les rapports.
 
+## Aperçu PNG des résultats
+
+![Aperçu du dashboard de qualité des données](assets/dashboard_preview.png)
+
+Graphiques séparés : [score par table](assets/quality_by_table.png) · [taux d’anomalies](assets/anomaly_rates.png) · [profil de complétude](assets/completeness_profile.png).
+
+Ces images montrent une exécution réelle du pipeline sur le jeu Olist. Après avoir relancé les contrôles, régénérez les PNG avec `python scripts/render_dashboard_assets.py`. Les fichiers et leur attribution sont décrits dans [`assets/README.md`](assets/README.md).
+
 ## Jeu de données
 
 Le projet utilise le [Brazilian E-Commerce Public Dataset by Olist sur Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce). La fiche décrit environ 100 000 commandes sur la période 2016–2018 et neuf fichiers CSV couvrant commandes, clients, articles, paiements, avis, produits, vendeurs, géolocalisation et traduction des catégories. Les données ont été anonymisées par leur fournisseur.
@@ -37,6 +45,7 @@ pip install -r requirements.txt
 python scripts/download_data.py
 python src/quality_monitor.py
 streamlit run dashboard/app.py
+python scripts/render_dashboard_assets.py  # met à jour les PNG du dépôt
 ```
 
 Le pipeline crée les fichiers suivants dans `outputs/` :
@@ -67,9 +76,11 @@ La couche SQL DuckDB de [`sql/quality_and_mart.sql`](sql/quality_and_mart.sql) c
 
 ```text
 ├── dashboard/app.py              # Tableau de bord interactif Streamlit
+├── assets/                        # Aperçu PNG et graphiques du run de référence
 ├── data/raw/                     # Sources locales, exclues du dépôt
 ├── powerbi/Measures.dax          # Mesures DAX de départ
 ├── scripts/download_data.py      # Téléchargement des fichiers Kaggle
+├── scripts/render_dashboard_assets.py # Rendu des PNG à partir des exports
 ├── sql/quality_and_mart.sql      # Modèle analytique et contrôles DuckDB
 ├── src/quality_monitor.py        # Profilage, règles et exports BI
 ├── tests/                        # Tests unitaires des contrôles
